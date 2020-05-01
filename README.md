@@ -1,5 +1,21 @@
 # flask_util
-Tools for decode and crack flask session encoded cookie
+Tools to decode and crack flask session encoded cookie
+
+Cookies have the following format:
+
+eyJfZmxhc2hlcyI6W3siIGRpIjp7IiB0X18iOlsibWVzc2FnZSIsIlBsZWFzZSBsb2cgaW4gdG8gYWNjZXNzIHRoaXMgcGFnZS4iXX19XX0.XqwoIA.TzwbrYVtTnZrttEZXCPODjhARBg
+
+=> The first part (before .) contain json encoded in base64 format
+=> The second part contain a timestamp encoded in base64 format
+=> The last part contain an HMac signature
+
+
+
+.eJwdisEKgCAQBX9leefoA_yK7iKy2KaCZbDexH_PPM3ATIe_CmsShbEddGaYBe-XtJ8Wt6hyFGw4irAKlRopP9QqcQgzUktZ6Z3PDjfGcOMDLjMeHA.XqwoIA.MYvHl4W55MChmAIZRxkWdAXCxn8
+
+=> The first part (before .) contain json compressed (zlib) then encoded in base64 format
+=> The second part contain a timestamp encoded in base64 format
+=> The last part contain an HMac signature
 
 # Requirements
 
@@ -44,4 +60,11 @@ user@kali:~/flask_util$ python bruteforce.py .eJwdisEKgCAQBX9leefoA_yK7iKy2KaCZb
 Secret key: 0000000                
 ```
 
+The script is configured for SHA1 HMac, you can change this behaviour in the source code
+```
+                signer_kwargs={
+                    'key_derivation': 'hmac',
+                    'digest_method' : hashlib.sha1
+                    })
+```
 
